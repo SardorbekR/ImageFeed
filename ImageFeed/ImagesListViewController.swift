@@ -1,0 +1,109 @@
+//
+//  ImagesListViewController.swift
+//  ImageFeed
+//
+//  Created by Sardor on 12/31/25.
+//
+
+import UIKit
+
+final class ImagesListViewController: UIViewController {
+    // MARK: - Outlets
+
+    @IBOutlet private var tableView: UITableView!
+
+    // MARK: - Private Properties
+
+    private let photosName: [String] = Array(0..<20).map { "\($0)" }
+    private lazy var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter
+    }()
+
+    // MARK: - Lifecycle
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.contentInset = UIEdgeInsets(
+            top: 12,
+            left: 0,
+            bottom: 12,
+            right: 0
+        )
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+
+    // MARK: - Private Methods
+
+    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+        let imageName = "\(photosName[indexPath.row]).jpg"
+        guard let image = UIImage(named: imageName) else { return }
+        cell.photoImageView?.image = image
+
+        cell.dateLabel?.text = dateFormatter.string(from: Date())
+
+        let isLiked = indexPath.row % 2 == 0
+        setHeartIcon(for: cell, isLiked: isLiked)
+    }
+
+    private func setHeartIcon(for cell: ImagesListCell, isLiked: Bool) {
+        let imageName = isLiked ? "Active.png" : "No_Active.png"
+        cell.likeButton?.setImage(UIImage(named: imageName), for: .normal)
+    }
+}
+
+// MARK: - UITableViewDataSource
+
+extension ImagesListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int)
+        -> Int
+    {
+        return photosName.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath)
+        -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: ImagesListCell.reuseIdentifier,
+            for: indexPath
+        )
+
+        guard let imageListCell = cell as? ImagesListCell else {
+            return UITableViewCell()
+        }
+
+        configCell(for: imageListCell, with: indexPath)
+        return imageListCell
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension ImagesListViewController: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        heightForRowAt indexPath: IndexPath
+    ) -> CGFloat {
+        let imageName = "\(photosName[indexPath.row]).jpg"
+        guard let image = UIImage(named: imageName) else { return 200 }
+
+        let imageWidth = image.size.width
+        let imageHeight = image.size.height
+        let imageViewWidth = tableView.bounds.width - 32
+
+        let imageViewHeight = imageViewWidth * imageHeight / imageWidth
+
+        let cellHeight = imageViewHeight + 8
+
+        return cellHeight
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {}
+}
