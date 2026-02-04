@@ -38,20 +38,13 @@ final class ImagesListViewController: UIViewController {
 
     // MARK: - Private Methods
 
-    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
+    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath)
+    {
         let imageName = "\(photosName[indexPath.row]).jpg"
-        guard let image = UIImage(named: imageName) else { return }
-        cell.photoImageView?.image = image
-
-        cell.dateLabel?.text = dateFormatter.string(from: Date())
-
+        let image = UIImage(named: imageName)
+        let dateText = dateFormatter.string(from: Date())
         let isLiked = indexPath.row % 2 == 0
-        setHeartIcon(for: cell, isLiked: isLiked)
-    }
-
-    private func setHeartIcon(for cell: ImagesListCell, isLiked: Bool) {
-        let imageName = isLiked ? "Active.png" : "No_Active.png"
-        cell.likeButton?.setImage(UIImage(named: imageName), for: .normal)
+        cell.configure(dateText: dateText, image: image, isLiked: isLiked)
     }
 }
 
