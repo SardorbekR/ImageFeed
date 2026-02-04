@@ -7,7 +7,7 @@ final class ImagesListCell: UITableViewCell {
 
     // MARK: - Outlets
 
-    @IBOutlet weak var dateLabel: UILabel?
+    @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet weak var likeButton: UIButton?
     @IBOutlet weak var photoImageView: UIImageView?
 }
