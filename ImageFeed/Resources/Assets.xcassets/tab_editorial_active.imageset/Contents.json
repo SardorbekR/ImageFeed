@@ -1,11 +1,6 @@
 {
   "images" : [
-    {
-      "filename" : "tab_editorial_active.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
+{
       "filename" : "tab_editorial_active@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
