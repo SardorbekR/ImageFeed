@@ -25,7 +25,8 @@ final class ImagesListCell: UITableViewCell {
     func configure(dateText: String, image: UIImage?, isLiked: Bool) {
         dateLabel.text = dateText
         photoImageView.image = image
-        let heartImageName = isLiked ? "Active.png" : "No_Active.png"
-        likeButton.setImage(UIImage(named: heartImageName), for: .normal)
+        let heartImageResource: ImageResource =
+            isLiked ? .likeButtonOn : .likeButtonOff
+        likeButton.setImage(UIImage(resource: heartImageResource), for: .normal)
     }
 }
