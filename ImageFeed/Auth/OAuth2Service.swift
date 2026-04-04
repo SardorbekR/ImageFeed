@@ -5,6 +5,10 @@ final class OAuth2Service {
 
     static let shared = OAuth2Service()
 
+    // MARK: - Private Properties
+
+    private let decoder = JSONDecoder()
+
     // MARK: - Private Initializer
 
     private init() {}
@@ -20,7 +24,7 @@ final class OAuth2Service {
             switch result {
             case .success(let data):
                 do {
-                    let response = try JSONDecoder().decode(
+                    let response = try self.decoder.decode(
                         OAuthTokenResponseBody.self,
                         from: data
                     )
@@ -64,7 +68,7 @@ final class OAuth2Service {
             return nil
         }
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
+        request.httpMethod = HTTPMethod.post.rawValue
         return request
     }
 }

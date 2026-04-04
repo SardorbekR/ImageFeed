@@ -35,7 +35,7 @@ final class AuthViewController: UIViewController {
 
     private func configureBackButton() {
         navigationController?.navigationBar.backIndicatorImage = UIImage(
-            named: "nav_back_button"
+            resource: .navBackButton
         )
         navigationController?.navigationBar.backIndicatorTransitionMaskImage =
             UIImage(named: "nav_back_button")
@@ -45,7 +45,9 @@ final class AuthViewController: UIViewController {
             target: nil,
             action: nil
         )
-        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
+        navigationItem.backBarButtonItem?.tintColor = UIColor(
+            resource: .ypBlack
+        )
     }
 }
 
@@ -58,7 +60,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
     ) {
         navigationController?.popViewController(animated: true)
         OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case .success:
                 self.delegate?.didAuthenticate(self)
